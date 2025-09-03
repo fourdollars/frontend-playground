@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Highlight.js 顯示語言名稱範例</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+
+    <style>
+        /* 可選：自訂語言標籤的樣式 */
+        .hljs-language {
+            font-size: 0.8em !important;
+            padding: 2px 8px !important;
+            border-radius: 5px !important;
+            background: #666 !important;
+            color: #fff !important;
+        }
+        .codeBlock {
+  position: relative;
+  .label {
+    position: absolute;
+    color: lightgray;
+    right: 4px;
+    top: 4px;
+    font-size: 11px;
+  }
+}
+    </style>
+</head>
+<body>
+
+    <h3>JavaScript 範例</h3>
+    <pre><code class="language-javascript">
+function greet(name) {
+  console.log(`Hello, ${name}!`);
+}
+
+greet('World');
+    </code></pre>
+
+    <h3>Python 範例</h3>
+    <pre><code class="language-python">
+def add(a, b):
+    return a + b
+
+result = add(5, 3)
+print(f"The result is {result}")
+    </code></pre>
+    <h3>C++ 範例</h3>
+    <pre><code class="language-cpp">
+struct Person {
+    std::string name;
+    int age;
+};
+
+int main() {
+    std::vector&lt;Person> people = {
+        {"Alice", 30},
+        {"Bob", 25},
+        {"Charlie", 35}
+    };
+
+    for (const auto& person : people) {
+        std::cout << person.name << " (" << person.age << ")" << std::endl;
+    }
+
+    return 0;
+}
+    </code></pre>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlightjs-badge/highlightjs-badge.min.js"></script>
+
+    <script>
+        window.onload = function() {
+            hljs.highlightAll();
+            window.highlightJsBadge({
+                <!-- contentSelector: '#CodeSyntax', -->
+                copyIconClass: "fas fa-copy",
+                checkIconClass: "fas fa-check text-success"
+            });
+        };
+    </script>
+
+</body>
+</html>
