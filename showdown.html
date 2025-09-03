@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Embbeded codes in Markdown by Showdown</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/themes/prism.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet"/>
+
+  <style>
+    body { font-family: sans-serif; line-height: 1.6; padding: 20px; max-width: 800px; margin: 0 auto; background-color: #f0f0f0; }
+    .post-body { background-color: #ffffff; padding: 20px; border: 1px solid #ddd; margin-bottom: 20px; }
+    h1, h2 { border-bottom: 1px solid #ddd; padding-bottom: 10px; }
+    .post-body table { width: 100%; border-collapse: collapse; margin: 1.5em 0; }
+    .post-body th, .post-body td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; }
+    .post-body th { background-color: #f2f2f2; }
+    div.post-body pre[class*="language-"] { position: relative; }
+    div.post-body .code-toolbar .prism-show-language { position: absolute; top: 0.3em; right: 0.5em; padding: 0.2em 0.5em; border-radius: 0.3em; background: #666; color: #fff; font-size: 0.85em; text-shadow: none; }
+  </style>
+</head>
+<body>
+
+  <h1>Embbeded codes in Markdown by Showdown</h1>
+  <p><b>預期效果：</b>底下區塊的 Markdown 語法會被轉譯，表格有格線，程式碼有高亮色彩，並且右上角會出現灰底白字的 "javascript" 標籤。</p>
+  
+  <hr>
+
+  <div class="post-body">
+# 文章標題
+
+這是一個包含表格和程式碼的 Markdown 範例。
+
+| 功能 | 狀態 |
+| :--- | :--- |
+| 表格 | 正常 |
+| 程式碼高亮 | 正常 |
+| 語言標籤 | **測試中** |
+
+```javascript
+// 檢查右上角是否有標籤
+function finalTest() {
+  const feature = "Language Label";
+  console.log(`Testing the ${feature}...`);
+  return true;
+}
+finalTest();
+```
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+
+struct Person {
+    std::string name;
+    int age;
+};
+
+int main() {
+    std::vector<Person> people = {
+        {"Alice", 30},
+        {"Bob", 25},
+        {"Charlie", 35}
+    };
+
+    // 使用 lambda 運算式定義比較函式，按年齡升序排序
+    std::ranges::sort(people, [](const Person& a, const Person& b) {
+        return a.age < b.age;
+    });
+
+    for (const auto& person : people) {
+        std::cout << person.name << " (" << person.age << ")" << std::endl;
+    }
+
+    return 0;
+}
+```
+
+```python
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+people = [
+    Person("Alice", 30),
+    Person("Bob", 25),
+    Person("Charlie", 35)
+]
+
+# 使用 lambda 函式作為 key，按年齡升序排序
+people.sort(key=lambda person: person.age)
+
+for person in people:
+    print(f"{person.name} ({person.age})")
+```
+
+```go
+package main
+
+import (
+	"fmt"
+	"slices"
+)
+
+type Person struct {
+	Name string
+	Age  int
+}
+
+func main() {
+	people := []Person{
+		{"Alice", 30},
+		{"Bob", 25},
+		{"Charlie", 35},
+	}
+
+	// 按年齡升序排序
+	slices.SortFunc(people, func(a, b Person) int {
+		if a.Age < b.Age {
+			return -1
+		}
+		if a.Age > b.Age {
+			return 1
+		}
+		return 0
+	})
+
+	fmt.Println(people)
+}
+```
+
+```rust
+#[derive(Debug, Eq, Ord, PartialEq, PartialOrd)]
+struct Person {
+    name: String,
+    age: u32,
+}
+
+fn main() {
+    let mut people = vec![
+        Person { name: "Alice".to_string(), age: 30 },
+        Person { name: "Bob".to_string(), age: 25 },
+        Person { name: "Charlie".to_string(), age: 35 },
+    ];
+
+    // 1. 使用 sort_unstable_by_key 按年齡升序排序
+    people.sort_unstable_by_key(|p| p.age);
+    println!("{:?}", people);
+
+    // 2. 使用 sort_unstable_by 按年齡降序排序
+    people.sort_unstable_by(|a, b| b.age.cmp(&a.age));
+    println!("{:?}", people);
+}
+```
+
+| 語言 | 方法 | 回傳值 |
+| --- | --- | --- |
+| C++ | 比較函式 | `bool` |
+| Python | Key Function | 任何可比較的值 |
+| Go | 比較函式 | `-1`, `0`, `1` |
+| Rust | Key Function 或比較函式 | 任何可比較的值或 `Ordering` |
+
+  </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/plugins/toolbar/prism-toolbar.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/plugins/show-language/prism-show-language.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/plugins/autoloader/prism-autoloader.min.js'></script>
+
+<script>
+//<![CDATA[
+  function renderContent() {
+    var posts = document.querySelectorAll('.post-body');
+    if (posts.length === 0) return;
+
+    var converter = new showdown.Converter({
+        tables: true,
+        strikethrough: true,
+        ghCompatibleHeaderId: true,
+        tasklists: true,
+        openLinksInNewWindow: true,
+        smartIndentationFix: true,
+        smoothLivePreview: true
+    });
+
+    posts.forEach(function(post) {
+      var textarea = document.createElement('textarea');
+      textarea.innerHTML = post.innerHTML;
+      var markdownText = textarea.value.trim();
+      var html = converter.makeHtml(markdownText);
+      post.innerHTML = html;
+    });
+
+    if (window.Prism) {
+      Prism.highlightAll();
+    }
+  }
+
+  window.addEventListener('load', renderContent);
+//]]>
+</script>
+
+</body>
+</html>
