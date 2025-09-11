@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Apollonian Circle Example</title>
+
+  <script src="https://tikzjax.com/v1/tikzjax.js" defer></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\(', '\)']],
+        displayMath: [['$$', '$$'], ['\[', '\]']]
+      }
+    };
+  </script>
+  <script async='async' id='MathJax-script' src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'></script>
+
+
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.7;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1 {
+      border-bottom: 2px solid #007bff;
+      padding-bottom: 10px;
+      color: #0056b3;
+    }
+    .tikz-container {
+      text-align: center;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #fff;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    code {
+      background-color: #eee;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Apollonian Circle Example</h1>
+
+  <p>
+      An <b>Apollonian Circle</b> is the set of all points P in a plane such that the ratio of the distances from P to two fixed points, A and B, is a constant value k. That is, $PA/PB = k$.
+  </p>
+  <p>
+      This diagram shows the case where $A=(4,0)$, $B=(1,0)$, and the ratio $k=2$.
+  </p>
+
+  <div class="tikz-container">
+    <script type="text/tikz">
+      \usetikzlibrary{calc}
+      \begin{tikzpicture}[
+        scale=1.2, % Overall scaling
+        dot/.style={circle, fill, inner sep=2pt} % Style for points
+      ]
+        % --- Parameters ---
+        % Define coordinates of A and B using macros
+        \def\Ax{4} \def\Ay{0}
+        \def\Bx{1}  \def\By{0}
+        \def\k{2}
+
+        % Define the coordinates for drawing
+        \coordinate (A) at (\Ax,\Ay);
+        \coordinate (B) at (\Bx,\By);
+
+        % --- Calculation ---
+        % Calculate center and radius using the macros
+        \pgfmathsetmacro{\cx}{((\k*\k*\Bx) - \Ax) / (\k*\k - 1)}
+        \pgfmathsetmacro{\cy}{((\k*\k*\By) - \Ay) / (\k*\k - 1)}
+        \pgfmathsetmacro{\distAB}{sqrt((\Bx-\Ax)^2 + (\By-\Ay)^2)}
+        \pgfmathsetmacro{\radius}{(abs(\k) / (\k*\k-1)) * \distAB}
+
+        % --- Now use the calculated macros ---
+        \coordinate (C) at (\cx, \cy);
+
+        % --- Drawing Commands ---
+        % Draw faint coordinate axes
+        \draw[->, gray!50] (-6,0) -- (8,0) node[right] {$x$};
+        \draw[->, gray!50] (0,-4) -- (0,4) node[above] {$y$}; 
+
+        % Draw the Apollonian circle
+        \draw[blue, thick, line cap=round] (C) circle (\radius);
+
+        % Draw and label the base points A and B
+        \node[dot, label=below:{\large $A (4,0)$}] at (A) {};
+        \node[dot, label=below:{\large $B (1,0)$}] at (B) {};
+
+        % Label the calculated center C
+        \node[dot, red, label=below right:{\color{red}\large $C$}] at (C) {};
+
+        % Pick a sample point P on the circle (e.g., at the 110-degree position)
+        \coordinate (P) at ($(C) + (110:\radius)$);
+        \node[dot, green!50!black, label=above:{\color{green!50!black}\large $P$}] at (P) {};
+
+        % Draw the distance lines PA and PB
+        \draw[gray, dashed] (P) -- (A) node[midway, above, sloped] {$PA$};
+        \draw[gray, dashed] (P) -- (B) node[midway, below, sloped] {$PB$};
+
+        % Add a note with the formula below the diagram
+        \node[blue, align=center] at (1,-3.5) {Any point $P$ on this circle satisfies \ \Large $\frac{PA}{PB} = \k$};
+
+      \end{tikzpicture}
+    </script>
+  </div>
+
+</body>
+</html>
