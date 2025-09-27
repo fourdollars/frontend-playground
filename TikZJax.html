@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Apollonian Circle Example</title>
+  <title>TikZJax Examples</title>
 
   <script src="https://tikzjax.com/v1/tikzjax.js" defer></script>
   <script>
     MathJax = {
       tex: {
-        inlineMath: [['$', '$'], ['\(', '\)']],
-        displayMath: [['$$', '$$'], ['\[', '\]']]
+        inlineMath: [['$', '$']],
+        displayMath: [['$$', '$$']]
       }
     };
   </script>
@@ -48,6 +48,85 @@
   </style>
 </head>
 <body>
+
+    <h1>Calculating Triangle Area with the Trapezoid Method</h1>
+
+    <p>
+        The <b>Trapezoid Method</b> is a general technique for calculating the area of any simple polygon (in this case, a triangle) in a plane. The core idea is to project each vertex of the polygon onto a coordinate axis (e.g., the x-axis), forming a series of trapezoids between the polygon's edges and the axis.
+    </p>
+    <p>
+        By calculating the <b>algebraic sum</b> (i.e., a sum that includes both positive and negative values) of the areas of these trapezoids, one can accurately determine the area of the original shape. The diagram below demonstrates this process: the area of triangle ABC is found by adding the areas of the two green trapezoids and then subtracting the area of the red trapezoid.
+    </p>
+
+    <div class="tikz-container">
+        <!-- 2. The TikZJax code block -->
+        <script type="text/tikz">
+            \begin{tikzpicture}[
+                scale=1,
+                point/.style={circle, fill=black, inner sep=1.5pt}
+            ]
+
+            % 1. Draw grid and axes
+            \draw[help lines, color=gray!30, dashed] (0,0) grid (11,8);
+            \draw[->, thick] (0,0) -- (11,0) node[right]{$x$};
+            \draw[->, thick] (0,0) -- (0,8) node[above]{$y$};
+
+            % 2. Define the three vertices and their projections on the X-axis
+            \coordinate (A) at (2,2);
+            \coordinate (B) at (6,7);
+            \coordinate (C) at (9,4);
+            \coordinate (A_proj) at (2,0);
+            \coordinate (B_proj) at (6,0);
+            \coordinate (C_proj) at (9,0);
+
+            % 3. Draw the filled trapezoid areas
+            % + Add the area of A'ABB' (Green)
+            \fill[green, opacity=0.25] (A_proj) -- (A) -- (B) -- (B_proj) -- cycle;
+            % + Add the area of B'BCC' (Green)
+            \fill[green, opacity=0.25] (B_proj) -- (B) -- (C) -- (C_proj) -- cycle;
+            % - Subtract the area of A'ACC' (Red)
+            \fill[red, opacity=0.35] (A_proj) -- (A) -- (C) -- (C_proj) -- cycle;
+
+            % 4. Draw the projection lines
+            \draw[gray, dashed] (A) -- (A_proj);
+            \draw[gray, dashed] (B) -- (B_proj);
+            \draw[gray, dashed] (C) -- (C_proj);
+
+            % 5. Draw the border of the blue triangle
+            \draw[blue, thick] (A) -- (B) -- (C) -- cycle;
+
+            % 6. Label all points
+            \node[point, label=above left:{$A(x_A, y_A)$}] at (A) {};
+            \node[point, label=above:{$B(x_B, y_B)$}] at (B) {};
+            \node[point, label=above right:{$C(x_C, y_C)$}] at (C) {};
+            \node[point, label=below:{$A'$}] at (A_proj) {};
+            \node[point, label=below:{$B'$}] at (B_proj) {};
+            \node[point, label=below:{$C'$}] at (C_proj) {};
+
+            % 7. Add the formula annotation
+            \node[align=center, font=\large] at (5.5, -1.5) {
+                Area($\triangle ABC$) = Area($\textcolor{green!50!black}{A'ABB'}$) + Area($\textcolor{green!50!black}{B'BCC'}$) - Area($\textcolor{red}{A'ACC'}$)
+            };
+
+            \end{tikzpicture}
+        </script>
+    </div>
+
+    <h2>Formula Derivation</h2>
+    <p>
+        The area of a trapezoid formed by two points $(x_1, y_1)$ and $(x_2, y_2)$ and their projections on the x-axis can be expressed as:
+        $$ \text{Area}_{12} = \frac{(y_1 + y_2) \times (x_1 - x_2)}{2} $$
+    </p>
+    <p>
+        Here we use $(x_1 - x_2)$ instead of its absolute value because its sign automatically handles whether the area should be added or subtracted, depending on the order of the points (clockwise or counter-clockwise). This makes the formula extremely versatile.
+    </p>
+    <p>
+        Therefore, the area of triangle ABC is the absolute value of the algebraic sum of the areas of the trapezoids corresponding to its three sides:
+        $$ \text{Area}(\triangle ABC) = \left| \frac{(y_A+y_B)(x_A-x_B)}{2} + \frac{(y_B+y_C)(x_B-x_C)}{2} + \frac{(y_C+y_A)(x_C-x_A)}{2} \right| $$
+    </p>
+    <p>
+        Interestingly, if you expand and simplify this formula, you will find that its algebraic form is identical to the <b>Shoelace Formula</b>. This demonstrates that the geometric meaning of the Shoelace Formula is derived from this very concept.
+    </p>
 
   <h1>Apollonian Circle Example</h1>
 
